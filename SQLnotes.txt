@@ -1,0 +1,121 @@
+//SQL, Structured Query Language
+//SQLite Relational Database Management System (RDBMS).
+
+
+//statement is text that the database recognizes as a valid command.
+//Statements always end in a semi-colon ;.
+
+
+/* Use this to comment in SQL
+over multiple lines*/
+
+--Use this to comment on a single line
+
+--https://www.codecademy.com/articles/sql-commands
+
+--commands DO NOT have to be uppercase, they will still work!
+--line breaks aren't needed in SQL
+
+CREATE TABLE celebs (
+	id INTEGER,
+  name TEXT,
+  age INTEGER
+  );
+--creates table with 3 columns: id, name, & age
+
+INSERT INTO celebs (id, name, age)
+VALUES (1, 'Justin Beiber', 21);
+--INSERT INTO is a clause that adds the specified row or rows.
+--(id, name, age) is a parameter identifying the columns that data will be inserted into.
+--VALUES is a clause that indicates the data being inserted
+
+INSERT INTO celebs (id, name, age)
+VALUES (2, 'Beyonce Knowles', 33);
+
+INSERT INTO celebs (id, name, age)
+VALUES (3, 'Jeremy Lin', 26);
+
+INSERT INTO celebs (id, name, age)
+VALUES (4, 'Taylor Swift', 26);
+
+SELECT name FROM celebs;
+--Returns one column showing all of the names
+SELECT * FROM celebs;
+--Select = darabase query -- this shows the entire table
+-- * - select ALL COLUMNS**
+
+ALTER TABLE celebs
+ADD COLUMN twitter_handle TEXT;
+
+UPDATE celebs
+SET twitter_handle = '@taylorswift13'
+WHERE id = 4;
+
+DELETE FROM celebs
+WHERE twitter_handle IS NULL;
+--deleted everyone except taylor Swift
+
+select * WHERE (column name) (operator or ----)
+operators: < > = != >= <=
+----------------------------------------------------------------
+
+SELECT * FROM awards;
+
+CREATE TABLE awards (
+   id INTEGER PRIMARY KEY,
+   recipient TEXT NOT NULL,
+   award_name TEXT DEFAULT
+'Grammy'
+);
+/*Data types:  **PRIMARY KEY columns can be used to uniquely identify the row.
+**UNIQUE columns have a different value for every row.
+This is similar to PRIMARY KEY but a table can have many different UNIQUE columns.
+**NOT NULL columns must have a value.
+**DEFAULT additional argument as assumed value for an inserted row if does not specify*/
+----------------------------------------------------------------
+/* Section 2 - Queries*/
+--table_name = movies
+--columns: id, name, genre, year, imdb_rating
+SELECT column1, column2
+FROM table_name;
+or
+SELECT name, genre, year FROM awards;
+
+SELECT name AS 'Titles'
+FROM movies;
+AS is a keyword in SQL that allows you to rename a column or table using an alias.
+--columns have not been renamed in the table!!! The aliases only appear in the result.
+
+SELECT DISTINCT tools
+FROM inventory;
+DISTINCT is used to return unique values in the output.
+It filters out all duplicate values in the specified column(s).
+--doesn't automatically sort (ie year earliest to latest)
+
+select * --all columns
+FROM table_name
+WHERE (column name) (operator - LIKE - IS NULL - BETWEEN - )
+	AND (column name) (operator - LIKE - IS NULL - BETWEEN - ) --combines mult conditions
+
+operators: < > = != >= <=, (WHERE year > 2000;)
+
+LIKE --not case sensitive
+_ = wildcard (WHERE name LIKE 'Se_en'; = will return Seven and Se7en
+% = wildcard (WHERE name LIKE '%man%;')
+'man%' - begin with "man" (Man of Steel)
+'%man' - end with "man" (Iron Man, Batman, Rain Man)
+'%man%' movies containing word man (Batman, Man of Steel, Spider-Man 2)
+
+IS NULL - unknown/missing values
+SELECT name FROM movies WHERE imdb_rating IS NOT NULL;
+
+BETWEEN two letters is not inclusive of the 2nd letter.
+BETWEEN two numbers is inclusive of the 2nd number.
+SELECT * FROM movies WHERE name BETWEEN 'A' AND 'J';
+"A" UP TO BUT NOT INCLUDING "J" (American Sniper, Inside Out)
+SELECT * FROM movies WHERE year BETWEEN 1990 AND 1999;
+Includes year 1999!
+
+SELECT * FROM movies
+WHERE year BETWEEN 1990 AND 1999
+   AND genre = 'romance';
