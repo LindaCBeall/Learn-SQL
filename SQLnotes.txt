@@ -92,10 +92,13 @@ DISTINCT is used to return unique values in the output.
 It filters out all duplicate values in the specified column(s).
 --doesn't automatically sort (ie year earliest to latest)
 
+----------------------------------------------------------------
+WHERE
+
 select * --all columns
 FROM table_name
-WHERE (column name) (operator - LIKE - IS NULL - BETWEEN - )
-	AND (column name) (operator - LIKE - IS NULL - BETWEEN - ) --combines mult conditions
+WHERE (column name) (operator - LIKE - IS NULL - BETWEEN - ORDER BY)
+	AND (column name) (operator - LIKE - IS NULL - BETWEEN - ORDER BY) --combines mult conditions
 
 operators: < > = != >= <=, (WHERE year > 2000;)
 
@@ -119,3 +122,7 @@ Includes year 1999!
 SELECT * FROM movies
 WHERE year BETWEEN 1990 AND 1999
    AND genre = 'romance';
+
+SELECT * FROM movies ORDER BY name;
+ORDER BY year DESC; ASC --descending and ascending
+--column ORDER BY doesn't have to display (select name from students order by score;)
