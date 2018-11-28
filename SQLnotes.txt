@@ -73,6 +73,7 @@ This is similar to PRIMARY KEY but a table can have many different UNIQUE column
 **NOT NULL columns must have a value.
 **DEFAULT additional argument as assumed value for an inserted row if does not specify*/
 ----------------------------------------------------------------
+----------------------------------------------------------------
 /* Section 2 - Queries*/
 --table_name = movies
 --columns: id, name, genre, year, imdb_rating
@@ -122,7 +123,74 @@ Includes year 1999!
 SELECT * FROM movies
 WHERE year BETWEEN 1990 AND 1999
    AND genre = 'romance';
+----------------------------------------------------------------
+ORDER BY, LIMIT, CASE
 
-SELECT * FROM movies ORDER BY name;
+SELECT name, year FROM movies ORDER BY name;
 ORDER BY year DESC; ASC --descending and ascending
 --column ORDER BY doesn't have to display (select name from students order by score;)
+
+SELECT name, year FROM movies LIMIT 10;
+LIMIT maximum number of results, always go at end of Query
+
+SELECT name,
+ CASE
+  WHEN imdb_rating > 8 THEN 'Fantastic'
+  WHEN imdb_rating > 6 THEN 'Poorly Received'
+  ELSE 'Avoid at All Costs'
+ END
+FROM movies;
+CASE = if/then logic -- comes b/w SELECT AND FROM & auto creates 2nd column
+--Just using END will create a column named "case when imdb_rating > 8 .....thru 'avoid at all costs'
+--to rename column:
+END AS REVIEW --column name is now "Review"
+FROM movies;
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+/* Section 3 - Aggregate-Functions*/
+--table_name = fake_apps
+--columns: id, name, category, downloads, price
+
+COUNT(): count the number of rows
+SUM(): the sum of the values in a column
+MAX()/MIN(): the largest/smallest value
+AVG(): the average of the values in a column
+ROUND(): round the values in the column
+
+SELECT COUNT(*) FROM table_name;
+--COUNT() w/o * would just count # of non empty values in column
+
+SELECT ROUND(price, 0) FROM fake_apps; --result will be only column "Price"
+select round(avg(price), 2) --average of all prices, rounded to 2 decimal places = 2.02
+
+
+SELECT year,
+   AVG(imdb_rating)
+FROM movies
+GROUP BY year        GROUP BY After WHERE, Before ORDER BY or LIMIT
+ORDER BY year;
+
+select category, price, avg(downloads) --1, 2, 3
+from fake_apps
+group by 1, 2;
+/* result:
+category, price, avg(downloads)
+books			0($)	10000
+books			1($)	1000
+business	0			5000
+business  1			200*/
+
+HAVING - similar to WHERE except filters groups instead of individual rows/values
+after GROUP BY but before ORDER BY, LIMIT
+
+SELECT price,
+   ROUND(AVG(downloads)),
+   COUNT(*)
+FROM fake_apps
+GROUP BY price
+HAVING COUNT(Category)>10;
+--returns the average downloads (rounded) and the number of apps – at each price point (3 columns)
+--HAVING clause to restrict the query to price points that have more than 10 apps.
+--price points 0, 1, 2, 3, 4, 15  - this removed 4$ and all associated # of downloads
