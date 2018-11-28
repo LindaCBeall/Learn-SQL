@@ -194,3 +194,31 @@ HAVING COUNT(Category)>10;
 --returns the average downloads (rounded) and the number of apps – at each price point (3 columns)
 --HAVING clause to restrict the query to price points that have more than 10 apps.
 --price points 0, 1, 2, 3, 4, 15  - this removed 4$ and all associated # of downloads
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+/* Section 4 - Multiple Tables*/
+--table_name = orders, subscriptions, customers
+--orders: order_id, customer_id, subscription_id, purchase_date
+--subscriptions: subscription_id, description, price_per_month, subscription_length
+--customers: customer_id, customer_name, address
+
+SELECT *
+FROM orders
+JOIN customers
+  ON orders.customer_id = customers.customer_id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
